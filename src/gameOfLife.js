@@ -2,7 +2,7 @@ const {
   initCell,
   arrangeCells,
   updateState
-} = require('../../game-of-life/src/lib.js');
+} = require('./lib.js');
 const nextGeneration = function(currGeneration,bounds) {
   let height = bounds.bottomRight[0]-bounds.topLeft[0];
   let width = bounds.bottomRight[1]-bounds.topLeft[1];
