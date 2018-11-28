@@ -12,10 +12,10 @@ const nextGeneration = function(currGeneration,bounds) {
   let world = arrangeCells(grid,currGeneration);
   let updatedWorld = updateState(world);
   let result = [];
-  for(let i=0; i<height; i++){
-    for(let j=0; j<width; j++){
+  for(let i in updatedWorld){
+    for(let j in updatedWorld[i]){
       if(updatedWorld[i][j]==1){
-        result.push([i,j]);
+        result.push([+i,+j]);
       }
     }
   }
