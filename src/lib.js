@@ -13,7 +13,6 @@ const initCells = function(height,width){
 }
 
 const updateCellWithInput = function(cells,element){
-  let size = cells.length;
   cells[element[0]][element[1]]++;
   return cells;
 }
@@ -84,6 +83,17 @@ const generateRelativeWorld = function(grid,currGeneration,bounds){
   return world;
 }
 
+const printBoard = function(grid){
+  const toRow = function(row){
+    return ['',...row,''].join(' | ');
+  }
+  let line = grid.map(toRow);
+  let HL = new Array(4*grid[0].length+2).fill('-').join('');
+  line = line.join('\n'+HL+'\n').split('\n');
+  return [HL,...line,HL].join('\n');
+
+}
+
 module.exports = { 
   initCells,
   generateInitialWorld,
@@ -94,5 +104,6 @@ module.exports = {
   checkNextState,
   updateGrid,
   updateCellWithInput,
-  generateRelativeWorld
+  generateRelativeWorld,
+  printBoard
 };

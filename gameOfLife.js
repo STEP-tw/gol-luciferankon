@@ -1,16 +1,26 @@
 const {
   initCells,
   generateInitialWorld,
-  updateCellsWithInput
+  updateCellsWithInput,
+  printBoard
 } = require('./src/lib.js');
 
 const {
   nextGeneration
 } = require('./src/gameOfLife.js');
 
-let world = initCells(3,4);
+const readline = require("readline-sync").question;
 
-let aliveCells = nextGeneration([[0,1],[1,1],[1,2]],{topLeft : [0,0], bottomRight : [3,4]});
-let nextGen = generateInitialWorld( world, aliveCells );
-console.log(nextGen);
+const readUserInput = function(){
+  let size = readline("enter the size of grid: ").split(' ');
+  let aliveCells = readline("enter the aliveCells: ").split(' ');
+  aliveCells = aliveCells.map( x => JSON.parse(x));
+  return {size : size, aliveCells : aliveCells};
+}
+
+let input = readUserInput();
+let world1 = initCells(+input.size[0],+input.size[1]);
+let aliveCells = nextGeneration( input.aliveCells, {topLeft : [0,0], bottomRight : [input.size[0],input.size[1]]});
+let nextGen = generateInitialWorld( world1, aliveCells );
+console.log(printBoard(nextGen));
 
