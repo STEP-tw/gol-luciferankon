@@ -1,7 +1,7 @@
 const {
   initCells,
   generateInitialWorld,
-  updateState
+  updateGrid
 } = require('./lib.js');
 
 //require this from library
@@ -20,7 +20,7 @@ const nextGeneration = function(currGeneration,bounds) {
   let makePositionRelativeWith = makePositionRelative.bind(null,bounds.topLeft);
   currGeneration = currGeneration.map(makePositionRelativeWith);
   let world = generateInitialWorld(grid,currGeneration);
-  let updatedWorld = updateState(world);
+  let updatedWorld = updateGrid(world);
   let result = [];
   let relativeTopLeft = bounds.topLeft.map( x => -x);
   for(let i in updatedWorld){

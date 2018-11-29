@@ -6,7 +6,7 @@ const {
   generateAddCoordinates,
   checkNeighbourState,
   checkNextState,
-  updateState,
+  updateGrid,
   updateCellWithInput
 } = require("../src/lib.js");
 
@@ -116,10 +116,10 @@ describe('check the next state',function(){
   
 });
 
-describe("updateState",()=>{
+describe("updateGrid",()=>{
   it("should return updated state of the grid ",()=>{
-    assert.deepEqual(updateState([[0,1],[1,0]]),[[0,0],[0,0]]);
-    assert.deepEqual(updateState([[0,1,0],[1,0,0],[0,0,0]]),[[0,0,0],[0,0,0],[0,0,0]]);
+    assert.deepEqual(updateGrid([[0,1],[1,0]]),[[0,0],[0,0]]);
+    assert.deepEqual(updateGrid([[0,1,0],[1,0,0],[0,0,0]]),[[0,0,0],[0,0,0],[0,0,0]]);
   });
 });
 

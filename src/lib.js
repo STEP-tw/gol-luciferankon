@@ -62,18 +62,16 @@ const checkNextState = function(neighbourStates,currentState){
   return rules[aliveNeighbour];
 }
 
-//put spaces in the lines
-//update state of the world
-const updateState = function(grid){
-  let result = grid.map(x=>x.slice());
-  for(let rowIndex=0;rowIndex<grid.length;rowIndex++){
-    for(let columnIndex=0;columnIndex<grid[rowIndex].length;columnIndex++){
-      let neighbourStates = checkNeighbourState(grid,[rowIndex,columnIndex]);
-      let nextState = checkNextState(neighbourStates,grid[rowIndex][columnIndex]);
-      result[rowIndex][columnIndex] = nextState;
+const updateGrid = function(oldGrid){
+  let grid = oldGrid.map( x => x.slice() );
+  for(let r=0; r < oldGrid.length; r++){
+    for(let c=0; c < oldGrid[r].length; c++){
+      let neighbourStates = checkNeighbourState( oldGrid , [r,c]);
+      let nextState = checkNextState( neighbourStates, oldGrid[r][c]);
+      grid[r][c] = nextState;
     }
   }
-  return result;
+  return grid;
 }
 
 module.exports = { 
@@ -84,6 +82,6 @@ module.exports = {
   generateAddCoordinates,
   checkNeighbourState,
   checkNextState,
-  updateState,
+  updateGrid,
   updateCellWithInput
 };
