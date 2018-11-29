@@ -1,4 +1,9 @@
 const ALIVE = 1;
+const {
+  findRelativeWorld,
+  findPointInsideBoard
+} = require('./utilLib.js');
+
 const DEAD = 0;
 const {
   isWithin
@@ -8,22 +13,20 @@ const initCells = function(height,width){
   let cells = new Array(height).fill(width);
   return cells.map( x => new Array(x).fill(0));
 }
-//resurrect cells can be named
+
 const updateCellWithInput = function(cells,element){
   let size = cells.length;
   cells[element[0]][element[1]]++;
   return cells;
 }
-//name it something else like current/initial generation
+
 const generateInitialWorld = function(cells,inputs){
   inputs.reduce(updateCellWithInput,cells);
   return cells;
 }
-//can be made constant
-//or can be made into function
-let possibleCombinations = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
 
-//shouldn't use two verbs in name
+const possibleCombinations = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
+
 const generateAddCoordinates = function(currentPosition){
   return function(delta){
     let rowIndex = currentPosition[0]+delta[0];
@@ -32,7 +35,6 @@ const generateAddCoordinates = function(currentPosition){
   }
 }
 
-//make constants 
 const checkValidPosition = function(grid){
   return function(position){
     let topLeft = [0,0];
@@ -77,6 +79,13 @@ const updateGrid = function(oldGrid){
   return grid;
 }
 
+const generateRelativeWorld = function(grid,currGeneration,bounds){
+  currGeneration = findPointInsideBoard(currGeneration,bounds);
+  currGeneration = findRelativeWorld(currGeneration,bounds);
+  let world = generateInitialWorld(grid,currGeneration);
+  return world;
+}
+
 module.exports = { 
   initCells,
   generateInitialWorld,
@@ -86,5 +95,6 @@ module.exports = {
   checkNeighbourState,
   checkNextState,
   updateGrid,
-  updateCellWithInput
+  updateCellWithInput,
+  generateRelativeWorld
 };

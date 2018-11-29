@@ -1,26 +1,24 @@
 const {
   initCells,
   generateInitialWorld,
-  updateGrid
+  updateGrid,
+  generateRelativeWorld
 } = require('./lib.js');
 
 //require this from library
 const {
-  isWithin
+  isWithin,
+  findHeightWidth,
+  makePositionRelative,
+  findPointInsideBoard,
+  findRelativeWorld
 } = require('./utilLib.js');
 
 const nextGeneration = function(currGeneration,bounds) {
-  //take this into small functions
-  let height = bounds.bottomRight[0]-bounds.topLeft[0]+1;
-  let width = bounds.bottomRight[1]-bounds.topLeft[1]+1;
-
+  let {height, width} = findHeightWidth(bounds);
   let grid = initCells(height,width);
-  let isWithinBound = isWithin.bind(null,bounds.topLeft,bounds.bottomRight);
-  currGeneration = currGeneration.filter(isWithinBound);
-  let makePositionRelativeWith = makePositionRelative.bind(null,bounds.topLeft);
-  currGeneration = currGeneration.map(makePositionRelativeWith);
-  let world = generateInitialWorld(grid,currGeneration);
-  let updatedWorld = updateGrid(world);
+  let relativeWorld  = generateRelativeWorld( grid, currGeneration, bounds);
+  let updatedWorld = updateGrid(relativeWorld);
   let result = [];
   let relativeTopLeft = bounds.topLeft.map( x => -x);
   for(let i in updatedWorld){
@@ -31,11 +29,6 @@ const nextGeneration = function(currGeneration,bounds) {
     }
   }
   return result.map(makePositionRelative.bind(null,relativeTopLeft));
-}
-
-//move to util
-const makePositionRelative = function(topLeft,position){
-  return [position[0]-topLeft[0],position[1]-topLeft[1]];
 }
 
 module.exports = { nextGeneration };
