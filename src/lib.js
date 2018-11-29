@@ -1,5 +1,3 @@
-const readline = require("readline-sync").question;
-
 const startGame = function(input){
   let grid = initCell(input.size);
   grid = generateInitialWorld(grid,input.aliveCells);
@@ -38,7 +36,7 @@ const generateAddCoordinates = function(currentPosition){
 
 const checkValidPosition = function(grid){
   return function(position){
-    return grid[position[0]]!=undefined && grid[position[1]]!=undefined;
+    return grid[position[0]]!=undefined && grid[position[0]][position[1]]!=undefined;
   }
 }
 
@@ -68,7 +66,7 @@ const checkNextState = function(neighbourStates,currentState){
 const updateState = function(grid){
   let result = grid.map(x=>x.slice());
   for(let rowIndex=0;rowIndex<grid.length;rowIndex++){
-    for(let columnIndex=0;columnIndex<grid.length;columnIndex++){
+    for(let columnIndex=0;columnIndex<grid[rowIndex].length;columnIndex++){
       let neighbourStates = checkNeighbourState(grid,[rowIndex,columnIndex]);
       let nextState = checkNextState(neighbourStates,grid[rowIndex][columnIndex]);
       result[rowIndex][columnIndex] = nextState;
