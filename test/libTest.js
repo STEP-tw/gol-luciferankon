@@ -1,36 +1,69 @@
 const { 
   initCell,
-  arrangeCells,
-  generateValidCombinations,
-  checkValidNeighbour,
-  generatePossibleNeighbours,
+  generateInitialWorld,
+  generateValidNeighbours,
+  checkValidPosition,
+  generateAddCoordinates,
   checkNeighbourState,
   checkNextState,
   updateState,
   updateCellWithInput
 } = require("../src/lib.js");
+
 const assert = require('assert');
 
 describe("initCell",function(){
+  //easy test cases are not covered i.e. 0x0, 1x1 1x2 2x2
   it("should return 3X3 array filled with 0",function(){
     assert.deepEqual(initCell(3,3),[[0,0,0],[0,0,0],[0,0,0]]);
   });
-});
-
-describe("arrangeCells",function(){
-  it("should return updated 3X3 array with inputs",function(){
-    assert.deepEqual(arrangeCells(initCell(3,3),[[0,0],[1,2],[2,2]]),[[1,0,0],[0,0,1],[0,0,1]]);
+  it("should return empty array for 0x0",function(){
+    assert.deepEqual(initCell(0,0),[]);
+  });
+  it("should return 1x1 array filled with 0",function(){
+    assert.deepEqual(initCell(1,1),[[0]]);
+  });
+  it("should return 1x2 array filled with 0",function(){
+    assert.deepEqual(initCell(1,2),[[0,0]]);
+  });
+  it("should return 2X2 array filled with 0",function(){
+    assert.deepEqual(initCell(2,2),[[0,0],[0,0]]);
   });
 });
 
-describe('valid combinations',function(){
+//name doesn't tell what it is going to do
+//inputs should be changed to something else
+//simple things are missing
+////function name changed
+describe("generateInitialWorld",function(){
+  it("should return updated 3X3 array with aliveCells",function(){
+    let aliveCells = [];
+    assert.deepEqual(generateInitialWorld(initCell(3,3),aliveCells),[[0,0,0],[0,0,0],[0,0,0]]);
+
+    aliveCells = [[0,0]];
+    assert.deepEqual(generateInitialWorld(initCell(3,3),aliveCells),[[1,0,0],[0,0,0],[0,0,0]]);
+
+    aliveCells = [[0,0],[1,2]];
+    assert.deepEqual(generateInitialWorld(initCell(3,3),aliveCells),[[1,0,0],[0,0,1],[0,0,0]]);
+    
+    aliveCells = [[0,0],[1,2],[2,2]];
+    assert.deepEqual(generateInitialWorld(initCell(3,3),aliveCells),[[1,0,0],[0,0,1],[0,0,1]]);
+  });
+});
+
+//combinations feels like too generic
+//should be changed to neighbours
+//function name changed
+describe('valid neighbours',function(){
   it('should return valid neighbours for given position',function(){
-    assert.deepEqual(generateValidCombinations(initCell(3,3),[0,0]),[[0,1],[1,0],[1,1]]);
+    assert.deepEqual(generateValidNeighbours(initCell(3,3),[0,0]),[[0,1],[1,0],[1,1]]);
   });
 });
 
-describe('check valid neighbour',function(){
-  let checkPosition = checkValidNeighbour(initCell(3));
+//function name changed
+//neighbour shpuld be changed to position
+describe('check valid position',function(){
+  let checkPosition = checkValidPosition(initCell(3,3));
   it('should return true if the position valid',function(){
     assert.deepEqual(checkPosition([0,0]),true);
   });
@@ -40,10 +73,12 @@ describe('check valid neighbour',function(){
   });
 });
 
-describe('generate possible neighbour',function(){
-  let calculateNeighbour = generatePossibleNeighbours([0,2]);
-  it('should return all the 8 possible neighbour of the given position',function(){
-    assert.deepEqual(calculateNeighbour([-1,-1]),[-1,1]);
+//function name changed
+//description of the function should be changed
+describe('add Co-ordinates',function(){
+  let addCoordinates = generateAddCoordinates([0,2]);
+  it('should return the sum of the co-ordinates',function(){
+    assert.deepEqual(addCoordinates([-1,-1]),[-1,1]);
   });
 });
 

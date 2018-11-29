@@ -2,7 +2,7 @@ const readline = require("readline-sync").question;
 
 const startGame = function(input){
   let grid = initCell(input.size);
-  grid = arrangeCells(grid,input.aliveCells);
+  grid = generateInitialWorld(grid,input.aliveCells);
   console.log(printBoard(grid));
   for(let count=0;count<10;count++){
     grid = updateState(grid);
@@ -16,19 +16,19 @@ const initCell = function(height,width){
 }
 
 const updateCellWithInput = function(cells,element){
-    let size = cells.length;
-    cells[element[0]][element[1]]++;
-    return cells;
+  let size = cells.length;
+  cells[element[0]][element[1]]++;
+  return cells;
 }
 
-const arrangeCells = function(cells,inputs){
+const generateInitialWorld = function(cells,inputs){
   inputs.reduce(updateCellWithInput,cells);
   return cells;
 }
 
 let possibleCombinations = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
 
-const generatePossibleNeighbours = function(currentPosition){
+const generateAddCoordinates = function(currentPosition){
   return function(delta){
     let rowIndex = currentPosition[0]+delta[0];
     let columnIndex = currentPosition[1]+delta[1];
@@ -36,17 +36,15 @@ const generatePossibleNeighbours = function(currentPosition){
   }
 }
 
-const checkValidNeighbour = function(grid){
+const checkValidPosition = function(grid){
   return function(position){
     return grid[position[0]]!=undefined && grid[position[1]]!=undefined;
   }
 }
 
-const generateValidCombinations = function(grid,currPosition){
-  //allDeltas.map(delta => currentPosition.add(delta)).filter(validNeighbour(grid));
-
-  let possibleNeighbours = possibleCombinations.map(generatePossibleNeighbours(currPosition));
-  return possibleNeighbours.filter(checkValidNeighbour(grid));
+const generateValidNeighbours = function(grid,currPosition){
+  let possibleNeighbours = possibleCombinations.map(generateAddCoordinates(currPosition));
+  return possibleNeighbours.filter(checkValidPosition(grid));
 }
 
 const checkState = function(grid){
@@ -57,14 +55,14 @@ const checkState = function(grid){
 }
 
 const checkNeighbourState = function(grid,position){
-  let validCombinations = generateValidCombinations(grid,position);
+  let validCombinations = generateValidNeighbours(grid,position);
   return validCombinations.reduce(checkState(grid),{1:[],0:[]});
 }
 
 const checkNextState = function(neighbourStates,currentState){
   let aliveNeighbour = neighbourStates[1].length;
-  let state = [[0,0,0,1,0,0,0,0,0],[0,0,1,1,0,0,0,0,0]];
-  return state[currentState][aliveNeighbour];
+  let rules = [0,0,currentState,1,0,0,0,0,0];
+  return rules[aliveNeighbour];
 }
 
 const updateState = function(grid){
@@ -87,10 +85,10 @@ const printBoard = function(grid){
 
 module.exports = { 
   initCell,
-  arrangeCells,
-  generateValidCombinations,
-  checkValidNeighbour,
-  generatePossibleNeighbours,
+  generateInitialWorld,
+  generateValidNeighbours,
+  checkValidPosition,
+  generateAddCoordinates,
   checkNeighbourState,
   checkNextState,
   updateState,
