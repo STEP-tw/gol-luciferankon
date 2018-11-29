@@ -1,2 +1,1 @@
-./src/.*.swp
-./test/.*.swp
+*.swp

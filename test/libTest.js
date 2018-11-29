@@ -1,5 +1,5 @@
 const { 
-  initCell,
+  initCells,
   generateInitialWorld,
   generateValidNeighbours,
   checkValidPosition,
@@ -12,22 +12,22 @@ const {
 
 const assert = require('assert');
 
-describe("initCell",function(){
+describe("initCells",function(){
   //easy test cases are not covered i.e. 0x0, 1x1 1x2 2x2
   it("should return 3X3 array filled with 0",function(){
-    assert.deepEqual(initCell(3,3),[[0,0,0],[0,0,0],[0,0,0]]);
+    assert.deepEqual(initCells(3,3),[[0,0,0],[0,0,0],[0,0,0]]);
   });
   it("should return empty array for 0x0",function(){
-    assert.deepEqual(initCell(0,0),[]);
+    assert.deepEqual(initCells(0,0),[]);
   });
   it("should return 1x1 array filled with 0",function(){
-    assert.deepEqual(initCell(1,1),[[0]]);
+    assert.deepEqual(initCells(1,1),[[0]]);
   });
   it("should return 1x2 array filled with 0",function(){
-    assert.deepEqual(initCell(1,2),[[0,0]]);
+    assert.deepEqual(initCells(1,2),[[0,0]]);
   });
   it("should return 2X2 array filled with 0",function(){
-    assert.deepEqual(initCell(2,2),[[0,0],[0,0]]);
+    assert.deepEqual(initCells(2,2),[[0,0],[0,0]]);
   });
 });
 
@@ -38,16 +38,16 @@ describe("initCell",function(){
 describe("generateInitialWorld",function(){
   it("should return updated 3X3 array with aliveCells",function(){
     let aliveCells = [];
-    assert.deepEqual(generateInitialWorld(initCell(3,3),aliveCells),[[0,0,0],[0,0,0],[0,0,0]]);
+    assert.deepEqual(generateInitialWorld(initCells(3,3),aliveCells),[[0,0,0],[0,0,0],[0,0,0]]);
 
     aliveCells = [[0,0]];
-    assert.deepEqual(generateInitialWorld(initCell(3,3),aliveCells),[[1,0,0],[0,0,0],[0,0,0]]);
+    assert.deepEqual(generateInitialWorld(initCells(3,3),aliveCells),[[1,0,0],[0,0,0],[0,0,0]]);
 
     aliveCells = [[0,0],[1,2]];
-    assert.deepEqual(generateInitialWorld(initCell(3,3),aliveCells),[[1,0,0],[0,0,1],[0,0,0]]);
+    assert.deepEqual(generateInitialWorld(initCells(3,3),aliveCells),[[1,0,0],[0,0,1],[0,0,0]]);
     
     aliveCells = [[0,0],[1,2],[2,2]];
-    assert.deepEqual(generateInitialWorld(initCell(3,3),aliveCells),[[1,0,0],[0,0,1],[0,0,1]]);
+    assert.deepEqual(generateInitialWorld(initCells(3,3),aliveCells),[[1,0,0],[0,0,1],[0,0,1]]);
   });
 });
 
@@ -56,20 +56,23 @@ describe("generateInitialWorld",function(){
 //function name changed
 describe('valid neighbours',function(){
   it('should return valid neighbours for given position',function(){
-    assert.deepEqual(generateValidNeighbours(initCell(3,3),[0,0]),[[0,1],[1,0],[1,1]]);
+    assert.deepEqual(generateValidNeighbours(initCells(3,3),[0,0]),[[0,1],[1,0],[1,1]]);
   });
 });
 
 //function name changed
 //neighbour shpuld be changed to position
 describe('check valid position',function(){
-  let checkPosition = checkValidPosition(initCell(3,3));
+  let checkPosition = checkValidPosition(initCells(3,3));
   it('should return true if the position valid',function(){
     assert.deepEqual(checkPosition([0,0]),true);
   });
   it('should return false if the position is not valid',function(){
     assert.deepEqual(checkPosition([0,-1]),false);
     assert.deepEqual(checkPosition([-1,0]),false);
+  });
+  it.skip('should return false if it is an empty array',function(){
+    assert.deepEqual(checkPosition([0,0]),false);
   });
 });
 

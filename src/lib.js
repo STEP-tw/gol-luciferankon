@@ -1,31 +1,27 @@
-const startGame = function(input){
-  let grid = initCell(input.size);
-  grid = generateInitialWorld(grid,input.aliveCells);
-  console.log(printBoard(grid));
-  for(let count=0;count<10;count++){
-    grid = updateState(grid);
-    console.log(printBoard(grid));
-  }
-}
+const {
+  isWithin
+} = require('./utilLib.js');
 
-const initCell = function(height,width){
+const initCells = function(height,width){
   let cells = new Array(height).fill(width);
   return cells.map( x => new Array(x).fill(0));
 }
-
+//resurrect cells can be named
 const updateCellWithInput = function(cells,element){
   let size = cells.length;
   cells[element[0]][element[1]]++;
   return cells;
 }
-
+//name it something else like current/initial generation
 const generateInitialWorld = function(cells,inputs){
   inputs.reduce(updateCellWithInput,cells);
   return cells;
 }
-
+//can be made constant
+//or can be made into function
 let possibleCombinations = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
 
+//shouldn't use two verbs in name
 const generateAddCoordinates = function(currentPosition){
   return function(delta){
     let rowIndex = currentPosition[0]+delta[0];
@@ -34,9 +30,10 @@ const generateAddCoordinates = function(currentPosition){
   }
 }
 
+//make constants 
 const checkValidPosition = function(grid){
   return function(position){
-    return grid[position[0]]!=undefined && grid[position[0]][position[1]]!=undefined;
+    return isWithin([0,0],[grid.length-1,grid[0].length-1],position);
   }
 }
 
@@ -45,6 +42,7 @@ const generateValidNeighbours = function(grid,currPosition){
   return possibleNeighbours.filter(checkValidPosition(grid));
 }
 
+//object can be named differently
 const checkState = function(grid){
   return function(object,position){
     object[grid[position[0]][position[1]]].push(position);
@@ -52,6 +50,7 @@ const checkState = function(grid){
   }
 }
 
+//validCombinations should be named validNeighbours
 const checkNeighbourState = function(grid,position){
   let validCombinations = generateValidNeighbours(grid,position);
   return validCombinations.reduce(checkState(grid),{1:[],0:[]});
@@ -63,6 +62,8 @@ const checkNextState = function(neighbourStates,currentState){
   return rules[aliveNeighbour];
 }
 
+//put spaces in the lines
+//update state of the world
 const updateState = function(grid){
   let result = grid.map(x=>x.slice());
   for(let rowIndex=0;rowIndex<grid.length;rowIndex++){
@@ -75,14 +76,8 @@ const updateState = function(grid){
   return result;
 }
 
-const printBoard = function(grid){
-  let line = grid.map( x => '| '+x.join(' | ')+' |');
-  let lineSeparator = new Array((4*grid.length)+1).fill('-').join('');
-  return lineSeparator+'\n'+line.join('\n'+lineSeparator+'\n')+'\n'+lineSeparator;
-}
-
 module.exports = { 
-  initCell,
+  initCells,
   generateInitialWorld,
   generateValidNeighbours,
   checkValidPosition,
@@ -90,6 +85,5 @@ module.exports = {
   checkNeighbourState,
   checkNextState,
   updateState,
-  startGame,
   updateCellWithInput
 };
