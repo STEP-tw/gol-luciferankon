@@ -1,3 +1,5 @@
+const ALIVE = 1;
+const DEAD = 0;
 const {
   isWithin
 } = require('./utilLib.js');
@@ -56,18 +58,18 @@ const checkNeighbourState = function(grid,position){
   return validCombinations.reduce(checkState(grid),{1:[],0:[]});
 }
 
-const checkNextState = function(neighbourStates,currentState){
-  let aliveNeighbour = neighbourStates[1].length;
-  let rules = [0,0,currentState,1,0,0,0,0,0];
-  return rules[aliveNeighbour];
+const checkNextState = function(neighbours,currentState){
+  let aliveNeighbours = neighbours[ALIVE].length;
+  let cellRules = [0,0,currentState,1,0,0,0,0,0];
+  return cellRules[aliveNeighbours];
 }
 
 const updateGrid = function(oldGrid){
   let grid = oldGrid.map( x => x.slice() );
   for(let r=0; r < oldGrid.length; r++){
     for(let c=0; c < oldGrid[r].length; c++){
-      let neighbourStates = checkNeighbourState( oldGrid , [r,c]);
-      let nextState = checkNextState( neighbourStates, oldGrid[r][c]);
+      let neighbours = checkNeighbourState( oldGrid , [r,c]);
+      let nextState = checkNextState( neighbours, oldGrid[r][c]);
       grid[r][c] = nextState;
     }
   }
