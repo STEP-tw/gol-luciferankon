@@ -1,10 +1,11 @@
 const ALIVE = 1;
+const DEAD = 0;
+
 const {
   findRelativeWorld,
   findPointInsideBoard
 } = require('./utilLib.js');
 
-const DEAD = 0;
 const {
   isWithin
 } = require('./utilLib.js');
