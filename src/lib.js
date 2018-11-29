@@ -35,7 +35,9 @@ const generateAddCoordinates = function(currentPosition){
 //make constants 
 const checkValidPosition = function(grid){
   return function(position){
-    return isWithin([0,0],[grid.length-1,grid[0].length-1],position);
+    let topLeft = [0,0];
+    let bottomRight = [grid.length-1,grid[0].length-1];
+    return isWithin(topLeft,bottomRight,position);
   }
 }
 
