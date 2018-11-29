@@ -44,11 +44,11 @@ const generateValidNeighbours = function(grid,currPosition){
   return possibleNeighbours.filter(checkValidPosition(grid));
 }
 
-//object can be named differently
 const checkState = function(grid){
-  return function(object,position){
-    object[grid[position[0]][position[1]]].push(position);
-    return object;
+  return function(neighbour,position){
+    let state = grid[position[0]][position[1]];
+    neighbour[state].push(position);
+    return neighbour;
   }
 }
 
