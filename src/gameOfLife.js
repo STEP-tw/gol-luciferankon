@@ -9,8 +9,8 @@ const {
 } = require('./utilLib.js');
 
 const nextGeneration = function(currGeneration,bounds) {
-  let height = bounds.bottomRight[0]-bounds.topLeft[0];
-  let width = bounds.bottomRight[1]-bounds.topLeft[1];
+  let height = bounds.bottomRight[0]-bounds.topLeft[0]+1;
+  let width = bounds.bottomRight[1]-bounds.topLeft[1]+1;
   let grid = initCell(height,width);
   let isWithinBound = isWithin.bind(null,bounds.topLeft,bounds.bottomRight);
   currGeneration = currGeneration.filter(isWithinBound);

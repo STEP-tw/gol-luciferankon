@@ -31,3 +31,4 @@ describe('nextGeneration',() => {
     assert.ok(isSameArity(actualNextGen,expectedNextGen));
   });
 });
+
