@@ -2,12 +2,9 @@ const ALIVE = 1;
 const DEAD = 0;
 
 const {
+  isWithin,
   findRelativeWorld,
   findPointInsideBoard
-} = require('./utilLib.js');
-
-const {
-  isWithin
 } = require('./utilLib.js');
 
 const initCells = function(height,width){
