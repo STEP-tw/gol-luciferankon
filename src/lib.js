@@ -52,10 +52,9 @@ const checkState = function(grid){
   }
 }
 
-//validCombinations should be named validNeighbours
 const checkNeighbourState = function(grid,position){
-  let validCombinations = generateValidNeighbours(grid,position);
-  return validCombinations.reduce(checkState(grid),{1:[],0:[]});
+  let validNeighbours = generateValidNeighbours( grid , position );
+  return validNeighbours.reduce( checkState(grid) , { [ALIVE] : [] , [DEAD] : [] });
 }
 
 const checkNextState = function(neighbours,currentState){
