@@ -19,8 +19,9 @@ const readUserInput = function(){
 }
 
 let input = readUserInput();
-let world1 = initCells(+input.size[0],+input.size[1]);
-let aliveCells = nextGeneration( input.aliveCells, {topLeft : [0,0], bottomRight : [input.size[0],input.size[1]]});
+let world1 = initCells(+input.size[0],+input.size[1]||+input.size[0]);
+let aliveCells = nextGeneration( input.aliveCells, {topLeft : [0,0], bottomRight : [input.size[0],input.size[1] || input.size[0]]});
 let nextGen = generateInitialWorld( world1, aliveCells );
-console.log(printBoard(nextGen));
+
+setInterval(function(){console.clear();console.log(printBoard(nextGen))},500)
 

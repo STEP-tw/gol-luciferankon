@@ -7,7 +7,7 @@ const {
   findPointInsideBoard
 } = require('./utilLib.js');
 
-const initCells = function(height,width){
+const initCells = function(height, width){
   let cells = new Array(height).fill(width);
   return cells.map( x => new Array(x).fill(0));
 }
