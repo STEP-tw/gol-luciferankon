@@ -12,9 +12,12 @@ const readline = require("readline-sync").question;
 
 const readUserInput = function(){
   let size = readline("enter the size of grid: ").split(' ');
+  let bounds = readline('enter bounds: ').split(' ');
   let aliveCells = readline("enter the aliveCells: ").split(' ');
   aliveCells = aliveCells.map( x => JSON.parse(x));
-  return {size : size, aliveCells : aliveCells};
+  bounds = bounds.map( x => JSON.parse(x));
+  bounds = { topLeft : bounds[0], bottomRight : bounds[1]};
+  return {size : size, aliveCells : aliveCells , bounds : bounds};
 }
 
 let input = readUserInput();
