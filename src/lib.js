@@ -13,7 +13,7 @@ const initCells = function(height, width){
 }
 
 const updateCellWithInput = function(cells,element){
-  cells[element[0]][element[1]]++;
+  cells[element[0]][element[1]]=1;
   return cells;
 }
 
