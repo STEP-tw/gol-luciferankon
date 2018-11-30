@@ -86,13 +86,13 @@ const generateRelativeWorld = function(grid,currGeneration,bounds){
 
 const printBoard = function(grid){
   const toRow = function(row){
-    return ['',...row,''].join(' | ');
+    return ['',row.slice(),''].join(' | ');
   }
   let board = grid.map( x => x.map( y => (y && '█')|| ' '));
   let line = board.map(toRow);
   let HL = new Array(4*grid[0].length+2).fill('-').join('');
   line = line.join('\n'+HL+'\n').split('\n');
-  return [HL,...line,HL].join('\n');
+  return [HL,line.slice(),HL].join('\n');
 }
 
 module.exports = { 
