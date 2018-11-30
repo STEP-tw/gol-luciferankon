@@ -2,7 +2,8 @@ const {
   initCells,
   generateInitialWorld,
   updateGrid,
-  generateRelativeWorld
+  generateRelativeWorld,
+  printBoard
 } = require('./lib.js');
 
 const {

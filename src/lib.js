@@ -7,6 +7,7 @@ const {
   findPointInsideBoard
 } = require('./utilLib.js');
 
+
 const initCells = function(height, width){
   let cells = new Array(height).fill(width);
   return cells.map( x => new Array(x).fill(0));
@@ -91,7 +92,6 @@ const printBoard = function(grid){
   let HL = new Array(4*grid[0].length+2).fill('-').join('');
   line = line.join('\n'+HL+'\n').split('\n');
   return [HL,...line,HL].join('\n');
-
 }
 
 module.exports = { 
@@ -105,5 +105,5 @@ module.exports = {
   updateGrid,
   updateCellWithInput,
   generateRelativeWorld,
-  printBoard
+  printBoard,
 };
